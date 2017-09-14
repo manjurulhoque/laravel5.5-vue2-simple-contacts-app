@@ -43825,7 +43825,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
-        updateContact: function updateContact(id) {}
+        updateContact: function updateContact(id) {
+            var _this3 = this;
+
+            console.log(id);
+            var data = Object.assign({}, this.contact);
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.patch(this.url + id, data).then(function (response) {
+                _this3.contact.name = '';
+                _this3.contact.email = '';
+                _this3.contact.phone = '';
+                _this3.edit = false;
+                _this3.fetContacts();
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        editContact: function editContact(id) {
+            var _this4 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + id).then(function (response) {
+                _this4.contact.name = response.data.name;
+                _this4.contact.phone = response.data.phone;
+                _this4.contact.email = response.data.email;
+                _this4.contact.id = response.data.id;
+                _this4.edit = true;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        deleteContact: function deleteContact(id) {
+            var _this5 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete(this.url + id).then(function (response) {
+                console.log('Deleted');
+                _this5.fetContacts();
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 });
 
@@ -43966,16 +44003,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('table', {
     staticClass: "table table-striped"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.contacts), function(c) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(c.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(c.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(c.phone))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(c.email))]), _vm._v(" "), _vm._m(1, true)])
+    return _c('tr', [_c('td', [_vm._v(_vm._s(c.id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(c.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(c.phone))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(c.email))]), _vm._v(" "), _c('td', [_c('button', {
+      staticClass: "btn btn-primary btn-xs",
+      on: {
+        "click": function($event) {
+          _vm.editContact(c.id)
+        }
+      }
+    }, [_vm._v("Edit contact")]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-danger btn-xs",
+      on: {
+        "click": function($event) {
+          _vm.deleteContact(c.id)
+        }
+      }
+    }, [_vm._v("Delete contact")])])])
   }))])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('tr', [_c('th', [_vm._v("#")]), _vm._v(" "), _c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("Phone")]), _vm._v(" "), _c('th', [_vm._v("Email")]), _vm._v(" "), _c('th', [_vm._v("Actions")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', [_c('button', {
-    staticClass: "btn btn-primary btn-xs"
-  }, [_vm._v("Edit contact")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-danger btn-xs"
-  }, [_vm._v("Delete contact")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

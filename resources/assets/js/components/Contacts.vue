@@ -45,8 +45,8 @@
                         <td>{{ c.phone }}</td>
                         <td>{{ c.email }}</td>
                         <td>
-                            <button class="btn btn-primary btn-xs">Edit contact</button>
-                            <button class="btn btn-danger btn-xs">Delete contact</button>
+                            <button @click="editContact(c.id)" class="btn btn-primary btn-xs">Edit contact</button>
+                            <button @click="deleteContact(c.id)" class="btn btn-danger btn-xs">Delete contact</button>
                         </td>
                     </tr>
                     </tbody>
@@ -103,7 +103,42 @@
                     })
             },
             updateContact(id){
-
+                console.log(id);
+                let data = Object.assign({}, this.contact);
+                axios.patch(this.url+id, data)
+                    .then(response => {
+                        this.contact.name = '';
+                        this.contact.email = '';
+                        this.contact.phone = '';
+                        this.edit = false;
+                        this.fetContacts();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            },
+            editContact(id){
+                axios.get(this.url+id)
+                    .then(response => {
+                        this.contact.name = response.data.name;
+                        this.contact.phone = response.data.phone;
+                        this.contact.email = response.data.email;
+                        this.contact.id = response.data.id;
+                        this.edit = true;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            },
+            deleteContact(id){
+                axios.delete(this.url+id)
+                    .then(response => {
+                        console.log('Deleted');
+                        this.fetContacts();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
             }
         }
     }

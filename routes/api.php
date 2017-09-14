@@ -16,7 +16,7 @@ Route::group( [ 'middleware' => 'api' ], function () {
 	Route::get( 'contacts/{id}', function ( $id ) {
 		return Contact::findOrFail( $id );
 	} );
-
+	// store contact
 	Route::post( 'contacts/store', function ( Request $request ) {
 		Contact::create( [
 			'name'  => $request->name,
@@ -25,7 +25,7 @@ Route::group( [ 'middleware' => 'api' ], function () {
 		] );
 		return response()->json(['message' => 'created', 'status' => 200]);
 	} );
-
+	// update contact
 	Route::patch( 'contacts/{id}', function ( Request $request, $id ) {
 		Contact::findOrFail( $id )->update( [
 			'name'  => $request->name,
@@ -33,7 +33,7 @@ Route::group( [ 'middleware' => 'api' ], function () {
 			'phone' => $request->phone
 		] );
 	} );
-
+	// delete contact
 	Route::delete( 'contacts/{id}', function ( $id ) {
 		return Contact::destroy( $id );
 	} );
